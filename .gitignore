@@ -1,0 +1,12 @@
+
+*.aux
+
+*.bbl
+
+*.blg
+
+*.log
+
+gfa-proposal.pdf
+
+gfa-proposal.synctex.gz
