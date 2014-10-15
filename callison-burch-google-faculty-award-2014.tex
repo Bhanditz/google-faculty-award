@@ -38,7 +38,7 @@
  Department of Computer and Information Science \\
  3330 Walnut Street, Philadelphia, PA 19104 \\
  Google Sponsors: Jakob Uszkoreit, Keith Hall  \\
- Google Contacts: Bill MacCartney, Brian Roark}
+ Google Contacts: Bill MacCartney, Brian Roark, Ashish Venugopal}
 
 \date{}
 
@@ -46,18 +46,18 @@
 \maketitle
 
 \begin{abstract}
-I propose to develop a methodology for extracting structured information from texts on the web using a combination of information retrieval, natural language processing, machine learning and crowdsourcing.  I will demonstrate this methodology with a novel knowledge-base population task.  I will develop a structured database of all incidents of gun violence in the United States that are reported in local newspapers and on local television stations's web sites. The methodology will be useful for researchers in relation extraction and semantic parsing, and the resulting database will be a valuable resource for epidemiologists and policy makers. 
-%The project will be built as part of an undergraduate crowdsourcing course, where it will be actively developed by 50 undergraduate students.  
+I propose to develop a methodology for extracting structured information from texts on the web using a combination of information retrieval, natural language processing, machine learning and crowdsourcing.  I will demonstrate this methodology with a novel knowledge-base population task.  I will develop a structured database of all incidents of gun violence in the United States that are reported in local newspapers and on local television stations' web sites. The methodology will be useful for researchers in relation extraction and semantic parsing, and the resulting database will be a valuable resource for epidemiologists and policy makers. 
+The project will be built as part of my undergraduate crowdsourcing course (\url{crowdsourcing-class.org}), where it will be actively developed by 50 undergraduate students.  
 \end{abstract}
 
 \section{Motivation}
 
-Knowledge is represented in many ways.  Sometimes it comes in structured formats like tables or relational databases bases.  Often times it is conveyed in a less structured fashion through natural language.  Structure often makes it easier for us to draw inferences about data, to answer questions, or to perform better web searching.  Google has improved search by building a knowledge graph that takes advantages of structured data like Freebase.  I propose to develop a methodology for extracting structured knowledge from the web through a combination of automatic techniques (including machine learning, natural language processing and information retrieval/extraction) with human computation/crowdsourcing.  The addition of human computation will allow us to reach a higher quality of data than is currently possible through fully-automatic techniques. To demonstrate this methodology, I will focus on a concrete task.  I will build a structured database that details all reported incidents of gun violence in the United States.  
+Knowledge is represented in many ways.  Sometimes it comes in structured formats like tables or relational databases bases.  Often times it is conveyed in a less structured fashion through natural language.  Structure makes it easier for us to draw inferences about data, to answer questions, or to perform better web searching.  Google has improved search by building a knowledge graph that takes advantages of structured data like Freebase.  I propose to develop a methodology for extracting structured knowledge from the web through a combination of automatic techniques (including machine learning, natural language processing and information retrieval/extraction) with human computation/crowdsourcing.  The addition of human computation will allow us to reach a higher quality of data than is currently possible through fully-automatic techniques. To demonstrate this methodology, I will focus on a concrete task.  I will build a structured database that details all reported incidents of gun violence in the United States.  
 
 This challenge task will serve as an illustration of the intellectual merit of the methodology as well as demonstrate the potential broader impact of being able to extract structured data from the web:
 \begin{itemize}
-\item Gun violence causes $\approx$33,000 deaths in the US every year and more than twice as many nonfatal injuries. Firearm injury is the fifth leading cause of years of potential life lost (YPLL), and ranks second only to motor vehicle accident in terms of injury-related deaths  \cite{ficapresourcebook}. 
-\item There is no single database that enumerates the details of the gun violence incidents.  This stymies public health research, and prevents data-driven reasoning to create good policy. 
+\item Gun violence causes $\approx$33,000 deaths in the US every year and many more nonfatal injuries. Firearm injury is the fifth leading cause of years of potential life lost (YPLL), and it is second after motor vehicle accidents in terms of injury-related deaths  \cite{ficapresourcebook}. 
+\item There is no single database that details all or most US gun violence incidents.  This stymies public health research, and prevents data-driven reasoning from being applied to policy creation. 
 \item Local newspapers and television stations report on gun fatalities. The details of these reports would be valuable to epidemiologists if they were in a structured database, rather than spread across the text of thousands of web pages.
 \end{itemize}
 Although I focus on gun violence, the methodology that I develop in this project will be general.  It could be applied to other events for which detailed global data is difficult to access, but which is described in a dispersed fashion on the web.  
@@ -66,14 +66,14 @@ Although I focus on gun violence, the methodology that I develop in this project
 
 \section{Proposed Work}
 
-I propose to establish a methodology that extracts structured data from the web using human computation as a primary component, augmenting ML, NLP, IR, and IE algorithms.  It is my contention at crowdsourcing enables the low-cost creation of high-quality data that can be used to train algorithms or to ensure that their output is correct.   Here is a sketch of how to extract structured information about all gun violence incidents in the US:
+I propose to establish a methodology that extracts structured data from the web using human computation as a primary component, augmenting ML, NLP, IR, and IE algorithms.  Crowdsourcing enables the low-cost creation of high-quality data that can be used to train algorithms or to ensure that their output is correct.   Here is a sketch of how to extract structured information about all gun violence incidents in the US:
 
 \begin{enumerate}
-\item Perform a daily web crawl of all local newspapers and TV stations.  My students and I have collected 50 million articles from over 2,500 local newspapers.\footnote{\url{http://newspapermap.com}} These newspapers cover 50 states and 2,000 cities \cite{Irvine-EtAl-2014:LREC}.
-\item Train a text classifier to predict whether articles describe gun violence or not.  We collected a training set of 10,000 gun violence articles  from the  New York Times Gun Report blog\footnote{\url{http://nocera.blogs.nytimes.com/category/gun-report/}}. We create a set of non-gun-violence articles by randomly sampling articles from our local newspapers.
+\item Perform a daily web crawl of all local newspapers and TV stations.  My students and I have collected 5 million articles from over 2,500 local newspapers.\footnote{\url{http://newspapermap.com}} These newspapers cover 50 states and 2,000 cities \cite{Irvine-EtAl-2014:LREC}.
+\item Train a text classifier to predict whether articles describe gun violence or not.  We collected a training set of 10,000 gun violence articles  from a New York Times blog called the Gun Report.\footnote{\url{http://nocera.blogs.nytimes.com/category/gun-report/}} We create a set of non-gun-violence articles by randomly sampling articles from our local newspaper corpus.
 \item Classify all articles in the full set, and hire crowd workers to validate the classifiers output for articles above a certain threshold.
 \item Run NLP tools like named entity recognizers over the validated texts to highlight potentially relevant elements of the articles for the structured database.
-\item Hire crowd-workers to read the articles and answer questions to populate the database fields.  For the gun violence database, fields include things like date and location of the incident, type of weapon, information about the shooters and victims, and details about the incident. 
+\item Hire crowd-workers to read the articles and answer questions to populate the database fields.  For the gun violence database, fields include things like date and location of the incident, type of weapon, information about the shooter and victim, and other details about the incident. 
 \item Retrain the ML and NLP components on the manually labeled data.  Train an IE system to pre-populate the database fields, initially to be edited by workers.
 \item Iterate over steps 1-6, and measure the quality of the automatic predictions. The role of the humans in the annotation process can be reduced or eliminated when the quality of the automatic predictions reaches a sufficient level.  Alternately, humans can vet everything, and the algorithms can be used to speed annotation.
 \end{enumerate}
@@ -92,13 +92,13 @@ The research questions include: how can we minimize the cost of extracting facts
 
 %In addition, the project will be built within an undergraduate course at the University of Pennsylvania (\url{http://crowdsourcing-class.org}). This will have the positive side effect of exposing 50 students, whose majors range from electrical engineering to digital media design, to current open questions in machine learning, human computation, natural language processing, and user interface design. 
 
-Our hybrid approach to information extraction will allow us to build a dataset that cannot currently be created using automatic methods alone. This fits with Google's mission of organizing the world's information by allowing researchers in public health and epidemiology access to web-scale data in a query-able form that they can actually use. In addition, the resource will help advance technologies for building these kinds of resources fully automatically. 
+Our hybrid approach to information extraction will allow us to build a dataset that cannot currently be created using automatic methods alone. This fits with Google's mission of organizing the world's information. It will allow researchers in public health and epidemiology access to web-scale data in a query-able form that they can actually use. In addition, the resource will help advance technologies for building these kinds of resources fully automatically. 
 
-The expected outcomes of this project are twofold.  First, we will build on existing research into relation extraction and semantic parsing \cite{mintz2009distant,cai2013semantic,yao2014information} and into the cost-quality-time tradeoffs inherent to combining crowdsourcing and machine learning \cite{Quinn11human-machinehybrid,Lin-et-al:HCOMP:2014}.  Second, our proof-of-concept will result in a gun violence database that will be a useful artifact for public heath researchers to study.
+The expected outcomes of this project are twofold.  First, we will build on existing research into relation extraction and semantic parsing \cite{mintz2009distant,cai2013semantic,yao2014information} and into the cost-quality-time tradeoffs inherent to combining crowdsourcing and machine learning \cite{Quinn11human-machinehybrid,Lin-et-al:HCOMP:2014}.  Second, our proof-of-concept will result in a gun violence database that will be a useful artifact for public heath research.
 
 \section{Social Impact}
 
-The potential for social impact of the gun violence database is high. It could enable data-driven reasoning to be applied to a topic that is usually dominated by emotion.   Research in this area is massively underfunded \cite{roth1993understanding}, and actively blocked by federal legislation.  Congress has prevued the Centers for Disease Control  from funding research which may be used to ``affect the passage of specific Federal, State, or local legislation intended to restrict or control the purchase or use of firearms'' \cite{kassirer1995partisan}.   Federal funding is not available to research this important topic.  This extends to NIH (see Table \ref{nih}).  A privately funded, crowdsourced solution could have a huge impact.
+The potential for social impact of the gun violence database is high. It could enable data-driven reasoning to be applied to a topic that is dominated by emotion.   Research in this area is massively underfunded, and is actively blocked by federal legislation  \cite{roth1993understanding}.  Congress has prevented the Centers for Disease Control  from funding research which may be used to ``affect the passage of specific Federal, State, or local legislation intended to restrict or control the purchase or use of firearms'' \cite{kassirer1995partisan}.   Federal funding is not available to research this important topic.  This extends to the National Institutes of Health (see Table \ref{nih}).  A privately funded, crowdsourced solution could have a huge impact.
 
 \begin{table}
 \centering
@@ -132,10 +132,10 @@ All of the data will be made freely available.  The data collection efforts will
 %Information such as community-level data, circumstances of firearm deaths, types of weapons used, victim-offender relationships, involvement of substance abuse, or place where the firearm injury occurred, are not consistently collected, leaving the data fragmented. \cite{ficapresourcebook} 
 %\end{quote}
 
-The systematic collection of epidemiological data on gun violence is complicated.  There is no centralized collection effort by the government, and the databases that do exist are incomplete and not updated in a timely fashion.\footnote{
+We will create the database schema in consultation with Douglas Weibe, a Professor of Epidemiology  at Penn's School of Medicine who specializes in studying gun violence from a public health perspective.   To date, epidemiologists have had difficulty  systematically collecting data on gun violence.  There is no centralized collection effort by the government, and the databases that do exist are incomplete and not updated in a timely fashion.\footnote{
 %There are 13 national data systems in the U.S., managed by separate federal agencies. Each of these compile information on firearm fatalities and nonfatal injury outcomes in different ways.  16 states now give online access to some information through the National Violent Death Registry System.  Some epidemiological studies use information sampled from 100 U.S. hospital Emergency Departments.   There is no consistent standard for information like circumstances of firearm deaths, types of weapons used, victim-offender relationships, involvement of substance abuse, or place where the firearm injury occurred, are not consistently collected.  Current  data collection efforts are very fragmented.}  
 There are 13 national data systems in the U.S., managed by separate federal agencies. 16 states now report through the National Violent Death Registry System.  Large-scale epidemiological studies sample information from 100 U.S. hospital Emergency Departments.   There is no consistent standard for information like circumstances of firearm deaths.
-} We will create the database schema in consultation with Douglas Weibe, a Professor of Epidemiology  at Penn's School of Medicine who specializes in studying gun violence from a public health perspective. 
+} 
 
 %The process of systematically cataloging all incidents of gun violence may seem impossible.  However, thousands of reports of gun violence are made available every day in the form of local news reports.  We propose to mine information about gun violence from local news sources in order to provide data that is nationally representative  and contains the level of local detail required for public health and policy research.  Although out data will be biased by what the news reports on, it will provide a complementary and larger data set than what is currently available to epidemiologists.
 
@@ -143,33 +143,15 @@ There are 13 national data systems in the U.S., managed by separate federal agen
 
 \section{Budget}
 
-We request \$71,716.  This will be used to fund 1 PhD student, plus \$10,000 toward crowdsourcing costs.  The student costs are based on
-University of Pennsylvania's standard rates for PhD students (\$30,566
-for tuition, \$28,500 for student salary, \$1,150 for a student
-computing fee), plus \$1,500 for travel.  
+We request \$72,409.  This will be used to fund 1 PhD student, plus \$10,000 toward crowdsourcing costs.  The student costs are based on
+University of Pennsylvania's standard rates for PhD students (\$30,566 for tuition, \$29,304 for student salary, \$950 for a student computing fee), plus \$1,500 for travel.  
 
 
 \section{Results from Past Google Projects}
 
-Chris Callison-Burch has been the recipient of three past Google faculty
-research awards: one in 2009 with Miles Osborne as the lead (proposal
-title: The Babel Challenge: Translating the World's Languages), and
-one in 2011 with Philip Resnik and Ben Bederson (proposal title:
-Translate the World: A Unified Framework for Crowdsourcing
-Translation), and one in 2013 as the PI (ParaGraph: Learning Paraphrases from Large, Diverse Data
-  Sets).  The first two awards focused on the low-cost creation of data for
-statistical machine translation systems.  The funding from these
-proposals sparked a new research direction for Dr. Callison-Burch, and
-resulted in a series of publications focused on crowdsourcing
-translation.
-Several public data releases have accompanied these publications,
-including translations of 10,000 individual words in each of 100
-languages, and bilingual parallel corpora for six verb-final Indian
-languages consisting of 0.5-1.5 million words in each language.
-Google's research funding has also allowed us to hire a software
-developer to create pipeline for creating translations on Amazon
-Mechanical Turk, that handles quality control and worker management
-tools. 
+I have received three Google faculty research awards in the past. In 2009, I was a co-PI with Miles Osborne on ``The Babel Challenge: Translating the World's Languages.''  In 2011, I was a co-PI with Philip Resnik and Ben Bederson on ``Translate the World: A Unified Framework for Crowdsourcing Translation,'' In 2013, I was the sole PI for ``ParaGraph: Learning Paraphrases from Large, Diverse Data   Sets.''  The first two awards focused on the low-cost creation of data for statistical machine translation systems.  These awards dramatically influenced the direction of my research.  Since receiving them, I have focused on crowdsourcing in my research, and I developed a course on Crowdsourcing and Human Computation (\url{crowdsourcing-class.org}).
+
+I released several public data sets that I developed under these awards.  This includes the paraphrase database (\url{paraphrase.org}), and several crowdsourced translations set (translations of 10,000 individual words in each of 100 languages, and bilingual parallel corpora for six verb-final Indian languages with 0.5-1.5 million words in each language). Google's funding has also allowed me to develop an easy to use web site for performing translations on Amazon Mechanical Turk  (\url{crowdtrans.com}). 
 
 
 
