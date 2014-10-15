@@ -29,7 +29,7 @@
 \definecolor{shadecolor}{rgb}{0.7421875,0.7421875,0.7421875}
 
 %\title{Constructing a gun violence database with IR, NLP, ML and crowdsourcing}
-\title{Gun violence database}
+\title{Extracting structured information via automatic + human computation}
 
 
 \author{Chris Callison-Burch \\
@@ -37,8 +37,8 @@
  University of Pennsylvania \\
  Department of Computer and Information Science \\
  3330 Walnut Street, Philadelphia, PA 19104 \\
- Google Sponsors: XXX \\
- Google Contacts: XXX}
+ Google Sponsors: Jakob Uszkoreit, Keith Hall  \\
+ Google Contacts: Bill MacCartney, Brian Roark}
 
 \date{}
 
@@ -46,46 +46,59 @@
 \maketitle
 
 \begin{abstract}
-We propose to build a comprehensive gun-violence database from the web. We will combine machine learning and human computation algorithms to extract structured data from the web sites of thousands of local newspapers and local television stations. The resulting database will be an invaluable resource for public health and gun policy researchers, and will provide a novel source of data for researchers in relation extraction and semantic parsing. The project will be built as part of an undergraduate crowdsourcing course, where it will be actively developed by 50 undergraduate students.  The resource will be created in consultation with epidemiology professors at the University of Pennsylvania's School of Medicine who specialize in studying gun violence from a public health perspective. 
+I propose to develop a methodology for extracting structured information from texts on the web using a combination of information retrieval, natural language processing, machine learning and crowdsourcing.  I will demonstrate this methodology with a novel knowledge-base population task.  I will develop a structured database of all incidents of gun violence in the United States that are reported in local newspapers and on local television stations's web sites. The methodology will be useful for researchers in relation extraction and semantic parsing, and the resulting database will be a valuable resource for epidemiologists and policy makers. 
+%The project will be built as part of an undergraduate crowdsourcing course, where it will be actively developed by 50 undergraduate students.  
 \end{abstract}
 
 \section{Motivation}
 
-Gun violence is currently one of the leading public health concerns in the U.S, causing an average of 33,000 deaths every year and more than twice as many nonfatal injuries. Firearm injury is the fifth leading cause of years of potential life lost (YPLL), and ranks second only to motor vehicle accident in terms of injury-related deaths  \cite{ficapresourcebook} . The magnitude of the problem has drawn substantial media attention, including the New York Times Gun Report blog\footnote{\url{http://nocera.blogs.nytimes.com/category/gun-report/}}, which highlighted diversity of gun crimes across the country.
+Knowledge is represented in many ways.  Sometimes it comes in structured formats like tables or relational databases bases.  Often times it is conveyed in a less structured fashion through natural language.  Structure often makes it easier for us to draw inferences about data, to answer questions, or to perform better web searching.  Google has improved search by building a knowledge graph that takes advantages of structured data like Freebase.  I propose to develop a methodology for extracting structured knowledge from the web through a combination of automatic techniques (including machine learning, natural language processing and information retrieval/extraction) with human computation/crowdsourcing.  The addition of human computation will allow us to reach a higher quality of data than is currently possible through fully-automatic techniques. To demonstrate this methodology, I will focus on a concrete task.  I will build a structured database that details all reported incidents of gun violence in the United States.  
 
-Research into the control and prevention of firearm injury depends on access to accurate and up-to-date data. The causes and circumstances of firearm injury vary substantially across region, age, and race, making locally aggregated data essential for diagnosing and treating the problem effectively. Data overall, however, is limited, especially at this local level:
+This challenge task will serve as an illustration of the intellectual merit of the methodology as well as demonstrate the potential broader impact of being able to extract structured data from the web:
+\begin{itemize}
+\item Gun violence causes $\approx$33,000 deaths in the US every year and more than twice as many nonfatal injuries. Firearm injury is the fifth leading cause of years of potential life lost (YPLL), and ranks second only to motor vehicle accident in terms of injury-related deaths  \cite{ficapresourcebook}. 
+\item There is no single database that enumerates the details of the gun violence incidents.  This stymies public health research, and prevents data-driven reasoning to create good policy. 
+\item Local newspapers and television stations report on gun fatalities. The details of these reports would be valuable to epidemiologists if they were in a structured database, rather than spread across the text of thousands of web pages.
+\end{itemize}
+Although I focus on gun violence, the methodology that I develop in this project will be general.  It could be applied to other events for which detailed global data is difficult to access, but which is described in a dispersed fashion on the web.  
 
-\begin{quote}
-Information such as community-level data, circumstances of firearm deaths, types of weapons used, victim-offender relationships, involvement of substance abuse, or place where the firearm injury occurred, are not consistently collected, leaving the data fragmented. \cite{ficapresourcebook} 
-\end{quote}
 
-The systematic collection of epidemiological data on gun violence is complicated.  There is no centralized collection effort by the government, and the databases that do exist are incomplete and not updated in a timely fashion.\footnote{
-%There are 13 national data systems in the U.S., managed by separate federal agencies. Each of these compile information on firearm fatalities and nonfatal injury outcomes in different ways.  16 states now give online access to some information through the National Violent Death Registry System.  Some epidemiological studies use information sampled from 100 U.S. hospital Emergency Departments.   There is no consistent standard for information like circumstances of firearm deaths, types of weapons used, victim-offender relationships, involvement of substance abuse, or place where the firearm injury occurred, are not consistently collected.  Current  data collection efforts are very fragmented.}  
-There are 13 national data systems in the U.S., managed by separate federal agencies. 16 states now report through the National Violent Death Registry System.  Large-scale epidemiological studies sample information from 100 U.S. hospital Emergency Departments.   There is no consistent standard for information like circumstances of firearm deaths.
-}
-The process of systematically cataloging all incidents of gun violence may seem impossible.  However, thousands of reports of gun violence are made available every day in the form of local news reports.  We propose to mine information about gun violence from local news sources in order to provide data that is nationally representative  and contains the level of local detail required for public health and policy research.  Although out data will be biased by what the news reports on, it will provide a complementary and larger data set than what is currently available to epidemiologists.
 
 \section{Proposed Work}
 
-We propose to build the largest database to date of gun violence incidents by mining structured information from millions of news articles, drawn from thousands of local newspapers. In order to operate at this scale, while still ensuring the resource is of high enough quality to be truly useful to epidemiologists, we will use a combination of automatic and crowdsourcing techniques. 
+I propose to establish a methodology that extracts structured data from the web using human computation as a primary component, augmenting ML, NLP, IR, and IE algorithms.  It is my contention at crowdsourcing enables the low-cost creation of high-quality data that can be used to train algorithms or to ensure that their output is correct.   Here is a sketch of how to extract structured information about all gun violence incidents in the US:
+
+\begin{enumerate}
+\item Perform a daily web crawl of all local newspapers and TV stations.  My students and I have collected 50 million articles from over 2,500 local newspapers.\footnote{\url{http://newspapermap.com}} These newspapers cover 50 states and 2,000 cities \cite{Irvine-EtAl-2014:LREC}.
+\item Train a text classifier to predict whether articles describe gun violence or not.  We collected a training set of 10,000 gun violence articles  from the  New York Times Gun Report blog\footnote{\url{http://nocera.blogs.nytimes.com/category/gun-report/}}. We create a set of non-gun-violence articles by randomly sampling articles from our local newspapers.
+\item Classify all articles in the full set, and hire crowd workers to validate the classifiers output for articles above a certain threshold.
+\item Run NLP tools like named entity recognizers over the validated texts to highlight potentially relevant elements of the articles for the structured database.
+\item Hire crowd-workers to read the articles and answer questions to populate the database fields.  For the gun violence database, fields include things like date and location of the incident, type of weapon, information about the shooters and victims, and details about the incident. 
+\item Retrain the ML and NLP components on the manually labeled data.  Train an IE system to pre-populate the database fields, initially to be edited by workers.
+\item Iterate over steps 1-6, and measure the quality of the automatic predictions. The role of the humans in the annotation process can be reduced or eliminated when the quality of the automatic predictions reaches a sufficient level.  Alternately, humans can vet everything, and the algorithms can be used to speed annotation.
+\end{enumerate}
+
+The research questions include: how can we minimize the cost of extracting facts from text documents while ensuring accurate results?  How can human annotation and automatic predictions best inform each other?  Can we scale human-in-the-loop fact extraction from tens of thousands of events to hundreds of thousands or millions of events?   Can relation extraction techniques for learning mappings from text to database fields be adapted from the Freebase/Wikipedia domains to other problems of interests to scientists and policy makers? 
+
+%We propose to build the largest database to date of gun violence incidents by mining structured information from millions of news articles, drawn from thousands of local newspapers. In order to operate at this scale, while still ensuring the resource is of high enough quality to be truly useful to epidemiologists, we will use a combination of automatic and crowdsourcing techniques. 
 
 \begin{figure}
 \includegraphics[width=\linewidth]{newspapermap.pdf}
 \label{map}
-\caption{Our gun violence database will be collected from local news papers indexed by NewspaperMap. These newspapers cover all 50 states and nearly 2,000 cities.}
+\caption{Our structured database will be extracted from local newspapers from 50 states and 2,000 cities gathered from NewspaperMap.}
 \end{figure}
 
-We will begin using a set of over 50 million articles collected from daily web crawls of over 2,500 local newspapers.\footnote{\url{http://newspapermap.com}} These news papers cover all 50 states and nearly 2,000 cities \cite{Irvine-EtAl-2014:LREC}. Using a set of 10,000 gun violence articles scraped from the Gun Report blog, we will train a classifier to identify articles which are likely to contain reports of firearm injury. We will use this classifier to collect a set of articles from which we can extract useful, structured information about the incident, such as the age of the offender, the location, and the offender's relation to the victim. Current state-of-the-art systems for semantic parsing are not yet able to extract these kinds of relations at the level of accuracy necessary. We will overcome this limitation by using crowdsourcing to extract the detailed information reliably, allowing us to make a resource that is truly useful for epidemiologists. To facilitate the job of the crowd workers, we will process the text to automatically highlight key information like named entities, dates, and locations. This combination of machine learning, natural language processing, and crowdsourcing will allow us to build the resource scalable, cost-effectively, and accurately.
+%We will begin using a set of over  Using a set of 10,000 gun violence articles scraped from the Gun Report blog, we will train a classifier to identify articles which are likely to contain reports of firearm injury. We will use this classifier to collect a set of articles from which we can extract useful, structured information about the incident, such as the age of the offender, the location, and the offender's relation to the victim. Current state-of-the-art systems for semantic parsing are not yet able to extract these kinds of relations at the level of accuracy necessary. We will overcome this limitation by using crowdsourcing to extract the detailed information reliably, allowing us to make a resource that is truly useful for epidemiologists. To facilitate the job of the crowd workers, we will process the text to automatically highlight key information like named entities, dates, and locations. This combination of machine learning, natural language processing, and crowdsourcing will allow us to build the resource scalable, cost-effectively, and accurately.
 
-In addition, the project will be built within an undergraduate course at the University of Pennsylvania (\url{http://crowdsourcing-class.org}). This will have the positive side effect of exposing 50 students, whose majors range from electrical engineering to digital media design, to current open questions in machine learning, human computation, natural language processing, and user interface design. 
+%In addition, the project will be built within an undergraduate course at the University of Pennsylvania (\url{http://crowdsourcing-class.org}). This will have the positive side effect of exposing 50 students, whose majors range from electrical engineering to digital media design, to current open questions in machine learning, human computation, natural language processing, and user interface design. 
 
-\section{Relevance for Google and NLP/IR Researchers}
+Our hybrid approach to information extraction will allow us to build a dataset that cannot currently be created using automatic methods alone. This fits with Google's mission of organizing the world's information by allowing researchers in public health and epidemiology access to web-scale data in a query-able form that they can actually use. In addition, the resource will help advance technologies for building these kinds of resources fully automatically. 
 
-Our hybrid approach to information extraction will allow us to build a dataset that cannot currently be created using automatic methods alone. This fits with Google's mission of organizing the world's information by allowing researchers in public health and epidemiology access to web-scale data in a query-able form that they can actually use. In addition, the resource will help advance technologies for building these kinds of resources fully automatically. The gun violence database will contain structured information paired with its source natural language text, which will provide a novel and especially practical dataset for researchers working in automatic relation extraction and semantic parsing \cite{mintz2009distant} \cite{cai2013semantic} \cite{yao2014information}.  This extends Google's current efforts at building a semantic graph.  Unlike the current resources used to develop these systems, such as Freebase, the gun violence database will give NLP researchers the opportunity to work on extracting relations and answering questions about problems of real interest to society, rather than factoids about celebrities and companies. 
+The expected outcomes of this project are twofold.  First, we will build on existing research into relation extraction and semantic parsing \cite{mintz2009distant,cai2013semantic,yao2014information} and into the cost-quality-time tradeoffs inherent to combining crowdsourcing and machine learning \cite{Quinn11human-machinehybrid,Lin-et-al:HCOMP:2014}.  Second, our proof-of-concept will result in a gun violence database that will be a useful artifact for public heath researchers to study.
 
 \section{Social Impact}
 
-The proposed project has the potential to have greatly positive social impact by enabling data-driven reasoning to be applied to a topic that tends to be dominated by emotion.  This project could help create better informed policy for preventing gun violence. Despite the high social and economic costs associated with firearm injury every year, research in this area is massively underfunded. Compared to other major causes of death, violence receives an order of magnitude less in national research funding, receiving only \$31 per YPLL compared to \$794 for cancer and \$697 for AIDS \cite{roth1993understanding}. This lack of funding makes a large-scale data collection efforts impossible. In addition, federal legislation actively prevents the Centers for Disease Control  from funding research which may be used to ``affect the passage of specific Federal, State, or local legislation intended to restrict or control the purchase or use of firearms'' \cite{kassirer1995partisan}.  Therefore federal funding is not available to research this important topic.  Funding from Google could have a huge impact.
+The potential for social impact of the gun violence database is high. It could enable data-driven reasoning to be applied to a topic that is usually dominated by emotion.   Research in this area is massively underfunded \cite{roth1993understanding}, and actively blocked by federal legislation.  Congress has prevued the Centers for Disease Control  from funding research which may be used to ``affect the passage of specific Federal, State, or local legislation intended to restrict or control the purchase or use of firearms'' \cite{kassirer1995partisan}.   Federal funding is not available to research this important topic.  This extends to NIH (see Table \ref{nih}).  A privately funded, crowdsourced solution could have a huge impact.
 
 \begin{table}
 \centering
@@ -102,8 +115,8 @@ Rabies & 55 & 59 \\
 Firearm injuries & $>$3,000,000 & 3 \\
 \hline\hline
 \end{tabular}
-\label{nih}
 \caption{Major NIH research awards and cumulative morbidity for select conditions in the US, 1973-2002. Reproduced from \newcite{branas2005getting}.}
+\label{nih}
 \end{table}
 
 The gun violence database would allow these important research questions to be answered without relying on government grants. The project would allow epidemiologists to take advantage of the enormous volume of natural language data available on the web, which they currently cannot process. At the same time, it would encourage NLP researchers to develop their technologies with respect to worthwhile applications with greater impact for society overall. 
@@ -111,7 +124,22 @@ The gun violence database would allow these important research questions to be a
 
 \section{Data Policy}
 
-All of the data will be made freely available.  The data collection efforts will be vetted by Penn's Institutional Review Board.
+All of the data will be made freely available.  The data collection efforts will be vetted by Penn's Institutional Review Board.  
+
+%Research into the control and prevention of firearm injury depends on access to accurate and up-to-date data. The causes and circumstances of firearm injury vary substantially across region, age, and race, making locally aggregated data essential for diagnosing and treating the problem effectively. Data overall, however, is limited, especially at this local level:
+
+%\begin{quote}
+%Information such as community-level data, circumstances of firearm deaths, types of weapons used, victim-offender relationships, involvement of substance abuse, or place where the firearm injury occurred, are not consistently collected, leaving the data fragmented. \cite{ficapresourcebook} 
+%\end{quote}
+
+The systematic collection of epidemiological data on gun violence is complicated.  There is no centralized collection effort by the government, and the databases that do exist are incomplete and not updated in a timely fashion.\footnote{
+%There are 13 national data systems in the U.S., managed by separate federal agencies. Each of these compile information on firearm fatalities and nonfatal injury outcomes in different ways.  16 states now give online access to some information through the National Violent Death Registry System.  Some epidemiological studies use information sampled from 100 U.S. hospital Emergency Departments.   There is no consistent standard for information like circumstances of firearm deaths, types of weapons used, victim-offender relationships, involvement of substance abuse, or place where the firearm injury occurred, are not consistently collected.  Current  data collection efforts are very fragmented.}  
+There are 13 national data systems in the U.S., managed by separate federal agencies. 16 states now report through the National Violent Death Registry System.  Large-scale epidemiological studies sample information from 100 U.S. hospital Emergency Departments.   There is no consistent standard for information like circumstances of firearm deaths.
+} We will create the database schema in consultation with Douglas Weibe, a Professor of Epidemiology  at Penn's School of Medicine who specializes in studying gun violence from a public health perspective. 
+
+%The process of systematically cataloging all incidents of gun violence may seem impossible.  However, thousands of reports of gun violence are made available every day in the form of local news reports.  We propose to mine information about gun violence from local news sources in order to provide data that is nationally representative  and contains the level of local detail required for public health and policy research.  Although out data will be biased by what the news reports on, it will provide a complementary and larger data set than what is currently available to epidemiologists.
+
+
 
 \section{Budget}
 
